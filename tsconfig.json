@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "simple-audioplayer": [
+        "dist/simple-audioplayer/simple-audioplayer",
+        "dist/simple-audioplayer"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

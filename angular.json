@@ -2,5 +2,46 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "simple-audioplayer": {
+      "projectType": "library",
+      "root": "projects/simple-audioplayer",
+      "sourceRoot": "projects/simple-audioplayer/src",
+      "prefix": "simple-audioplayer",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/simple-audioplayer/tsconfig.lib.json",
+            "project": "projects/simple-audioplayer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/simple-audioplayer/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/simple-audioplayer/src/test.ts",
+            "tsConfig": "projects/simple-audioplayer/tsconfig.spec.json",
+            "karmaConfig": "projects/simple-audioplayer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/simple-audioplayer/tsconfig.lib.json",
+              "projects/simple-audioplayer/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "simple-audioplayer"
 }
