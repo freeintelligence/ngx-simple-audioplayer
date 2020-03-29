@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
+import { SimpleAudioplayerComponent } from './components/simple-audioplayer/simple-audioplayer.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [SimpleAudioplayerComponent],
   imports: [
+    MaterialModule,
   ],
-  exports: []
+  exports: [SimpleAudioplayerComponent]
 })
 export class SimpleAudioplayerModule { }

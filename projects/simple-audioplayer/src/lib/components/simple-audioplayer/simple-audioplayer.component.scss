@@ -1,0 +1,58 @@
+mat-card {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  .song-data {
+    width: 100%;
+
+    .song-title {
+      margin: 12px 0 0 0 !important;
+      padding: 0 !important;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .song-subtitle {
+      margin: 0 !important;
+      padding: 0 !important;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: #8d8d8d;
+      font-weight: normal;
+    }
+  }
+
+  .audio-player {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+    align-items: center;
+
+    .controls {
+      width: 74px;
+    }
+  
+    .duration {
+      position: relative;
+      width: calc(100% - 74px*2);
+  
+      mat-slider {
+        width: 100%;
+      }
+  
+      span {
+        position: absolute;
+        left: 0;
+        top: 34px;
+        width: 100%;
+        text-align: center;
+        font-size: 11px;
+      }
+    }
+  
+    .volume {
+      width: 74px;
+    }
+  }
+}
