@@ -1,21 +1,24 @@
 <mat-card>
-  <div class="song-data">
-    <h2 class="song-title">La marcha de los animales</h2>
-    <h4 class="song-subtitle">El poder de jugar</h4>
+  <div *ngIf="current" class="song-data">
+    <h2 *ngIf="current.title" class="song-title">{{ current.title }}</h2>
+    <h4 *ngIf="current.subtitle" class="song-subtitle">{{ current.subtitle }}</h4>
   </div>
 
   <div class="audio-player">
     <div class="controls">
-      <button mat-icon-button type="button"><mat-icon>play_circle_filled</mat-icon></button>
+      <button mat-icon-button type="button"><mat-icon>skip_previous</mat-icon></button>
+      <button mat-icon-button type="button" (click)="toggle()"><mat-icon>{{ audio.paused ? 'play_circle_filled' : 'pause_circle_filled' }}</mat-icon></button>
+      <button mat-icon-button type="button"><mat-icon>skip_next</mat-icon></button>
     </div>
 
     <div class="duration">
-      <mat-slider min="0" max="180" step="1" value="0"></mat-slider>
-      <span>01:12 / 03:00</span>
+      <mat-slider min="0" [max]="audio.duration" step="1" [value]="currentTime" (input)="setCurrentTime($event)"></mat-slider>
+      <span *ngIf="getCurrentTime() && getDuration()">{{ getCurrentTime() }} / {{ getDuration() }}</span>
     </div>
 
     <div class="volume">
       <button mat-icon-button type="button"><mat-icon>volume_up</mat-icon></button>
+      <button mat-icon-button type="button"><mat-icon>list</mat-icon></button>
     </div>
   </div>
 </mat-card>

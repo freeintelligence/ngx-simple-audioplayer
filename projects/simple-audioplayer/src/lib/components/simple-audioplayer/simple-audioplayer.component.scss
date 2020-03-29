@@ -1,13 +1,14 @@
 mat-card {
   width: 100%;
-  padding: 0;
-  margin: 0;
-
+  padding: 12px !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+  
   .song-data {
     width: 100%;
 
     .song-title {
-      margin: 12px 0 0 0 !important;
+      margin: 0 !important;
       padding: 0 !important;
       font-size: 14px;
       text-transform: uppercase;
@@ -30,12 +31,12 @@ mat-card {
     align-items: center;
 
     .controls {
-      width: 74px;
+      width: 120px;
     }
   
     .duration {
       position: relative;
-      width: calc(100% - 74px*2);
+      width: calc(100% - 120px - 80px);
   
       mat-slider {
         width: 100%;
@@ -52,7 +53,7 @@ mat-card {
     }
   
     .volume {
-      width: 74px;
+      width: 80px;
     }
   }
 }
