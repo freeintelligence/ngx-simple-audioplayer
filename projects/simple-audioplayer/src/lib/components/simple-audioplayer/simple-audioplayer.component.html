@@ -7,8 +7,8 @@
   <div class="audio-player">
     <div class="controls">
       <button mat-icon-button type="button" [disabled]="!currentIndex" (click)="previous()"><mat-icon>skip_previous</mat-icon></button>
-      <button mat-icon-button type="button" [disabled]="!audio" (click)="toggle()"><mat-icon>{{ audio?.paused ? 'play_circle_filled' : 'pause_circle_filled' }}</mat-icon></button>
-      <button mat-icon-button type="button" [disabled]="!audio" (click)="next()"><mat-icon>skip_next</mat-icon></button>
+      <button mat-icon-button type="button" [disabled]="!songs.length" (click)="toggle()"><mat-icon>{{ audio?.paused ? 'play_circle_filled' : 'pause_circle_filled' }}</mat-icon></button>
+      <button mat-icon-button type="button" [disabled]="currentIndex >= songs.length - 1" (click)="next()"><mat-icon>skip_next</mat-icon></button>
     </div>
 
     <div class="duration">
