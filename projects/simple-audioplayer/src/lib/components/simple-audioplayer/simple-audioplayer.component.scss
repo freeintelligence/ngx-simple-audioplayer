@@ -1,4 +1,4 @@
-mat-card {
+mat-card.ngx-simple-audioplayer-component {
   width: 100%;
   padding: 12px !important;
   margin: 0 !important;
@@ -55,5 +55,15 @@ mat-card {
     .volume {
       width: 80px;
     }
+  }
+}
+
+.song-volume-menu {
+  width: auto !important;
+  min-width: auto !important;
+  overflow: hidden !important;
+
+  mat-slider {
+    margin: 0 32px !important;
   }
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Song } from '../../interfaces/song.interface';
 
 @Component({
   selector: 'simple-audioplayer',
   templateUrl: './simple-audioplayer.component.html',
-  styleUrls: ['./simple-audioplayer.component.scss']
+  styleUrls: ['./simple-audioplayer.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SimpleAudioplayerComponent implements OnInit {
 
@@ -12,11 +13,13 @@ export class SimpleAudioplayerComponent implements OnInit {
   private iCurrentIndex: number;
   public currentSong: Song;
   public currentTime: number;
+  public currentVolume: number;
   public audio: HTMLAudioElement;
 
   constructor() {
     this.audio = new Audio();
     this.audio.ontimeupdate = () => this.currentTime = this.audio.currentTime;
+    this.currentVolume = 1;
   }
 
   ngOnInit(): void {
@@ -94,6 +97,11 @@ export class SimpleAudioplayerComponent implements OnInit {
     this.play();
   }
 
+  volumeChange(event: any) {
+    this.currentVolume = event.value;
+    this.audio.volume = this.currentVolume;
+  }
+
   getDuration() {
     if (!this.audio) {
       return null;
@@ -135,6 +143,18 @@ export class SimpleAudioplayerComponent implements OnInit {
 
     this.audio.currentTime = event.value;
     this.currentTime = event.value;
+  }
+
+  getCurrentVolume() {
+    if (!this.currentVolume) {
+      return null;
+    }
+
+    return `${Math.round(this.currentVolume * 100)}`;
+  }
+
+  formatLabelVolume(value: number) {
+    return `${Math.round(value * 100)}%`;
   }
 
 }
