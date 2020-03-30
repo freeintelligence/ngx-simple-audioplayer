@@ -1,24 +1,34 @@
 <mat-card>
-  <div *ngIf="current" class="song-data">
-    <h2 *ngIf="current.title" class="song-title">{{ current.title }}</h2>
-    <h4 *ngIf="current.subtitle" class="song-subtitle">{{ current.subtitle }}</h4>
+  <div *ngIf="currentSong" class="song-data">
+    <h2 *ngIf="currentSong.title" class="song-title">{{ currentSong.title }}</h2>
+    <h4 *ngIf="currentSong.subtitle" class="song-subtitle">{{ currentSong.subtitle }}</h4>
   </div>
 
   <div class="audio-player">
     <div class="controls">
-      <button mat-icon-button type="button"><mat-icon>skip_previous</mat-icon></button>
-      <button mat-icon-button type="button" (click)="toggle()"><mat-icon>{{ audio.paused ? 'play_circle_filled' : 'pause_circle_filled' }}</mat-icon></button>
-      <button mat-icon-button type="button"><mat-icon>skip_next</mat-icon></button>
+      <button mat-icon-button type="button" [disabled]="!currentIndex" (click)="previous()"><mat-icon>skip_previous</mat-icon></button>
+      <button mat-icon-button type="button" [disabled]="!audio" (click)="toggle()"><mat-icon>{{ audio?.paused ? 'play_circle_filled' : 'pause_circle_filled' }}</mat-icon></button>
+      <button mat-icon-button type="button" [disabled]="!audio" (click)="next()"><mat-icon>skip_next</mat-icon></button>
     </div>
 
     <div class="duration">
-      <mat-slider min="0" [max]="audio.duration" step="1" [value]="currentTime" (input)="setCurrentTime($event)"></mat-slider>
+      <mat-slider min="0" [max]="audio?.duration" step="1" [value]="currentTime" [disabled]="!audio" (input)="setCurrentTime($event)"></mat-slider>
       <span *ngIf="getCurrentTime() && getDuration()">{{ getCurrentTime() }} / {{ getDuration() }}</span>
     </div>
 
     <div class="volume">
       <button mat-icon-button type="button"><mat-icon>volume_up</mat-icon></button>
-      <button mat-icon-button type="button"><mat-icon>list</mat-icon></button>
+      <button mat-icon-button type="button" [matMenuTriggerFor]="songListMenu"><mat-icon>list</mat-icon></button>
+
+        <mat-menu #songListMenu="matMenu">
+          <mat-action-list>
+            <button *ngFor="let song of songs; let i = index" mat-list-item [hidden]="!song.title" (click)="play(i)">
+              <mat-icon matListIcon>play_arrow</mat-icon>
+              <h3 matLine>{{ song.title }}</h3>
+              <p matLine *ngIf="song.subtitle"><span>{{ song.subtitle }}</span></p>
+            </button>
+          </mat-action-list>
+        </mat-menu>
     </div>
   </div>
 </mat-card>

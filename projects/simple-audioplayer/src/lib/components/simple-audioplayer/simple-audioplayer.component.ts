@@ -9,11 +9,15 @@ import { Song } from '../../interfaces/song.interface';
 export class SimpleAudioplayerComponent implements OnInit {
 
   private iSongs: Song[] = [];
-  private iCurrent: Song;
+  private iCurrentIndex: number;
+  public currentSong: Song;
   public currentTime: number;
   public audio: HTMLAudioElement;
 
-  constructor() { }
+  constructor() {
+    this.audio = new Audio();
+    this.audio.ontimeupdate = () => this.currentTime = this.audio.currentTime;
+  }
 
   ngOnInit(): void {
   }
@@ -21,40 +25,80 @@ export class SimpleAudioplayerComponent implements OnInit {
   @Input('songs')
   set songs(songs: Song[]) {
     this.iSongs = songs;
-
-    if (this.iSongs && this.iSongs.length) {
-      this.current = this.iSongs[0];
-    }
+    this.currentIndex = this.iSongs && this.iSongs.length ? 0 : null;
   }
 
   get songs(): Song[] {
     return this.iSongs;
   }
 
-  set current(song: Song) {
-    this.iCurrent = song;
+  set currentIndex(index: number) {
+    const song = typeof index === 'number' ? this.songs[index] : null;
+
+    if (!song) {
+      this.iCurrentIndex = null;
+      this.currentSong = null;
+    } else {
+      this.iCurrentIndex = index;
+      this.currentSong = song;
+    }
+
     this.currentTime = 0;
-    this.audio = new Audio(song ? song.url : null);
-    this.audio.ontimeupdate = () => this.currentTime = this.audio.currentTime;
+    this.pause();
+    this.audio.src = song ? song.url : null;
   }
 
-  get current(): Song {
-    return this.iCurrent;
+  get currentIndex(): number {
+    return this.iCurrentIndex;
   }
 
-  async play() {
-    return await this.audio.play();
+  async play(index?: number) {
+    if (!this.audio) {
+      return null;
+    }
+
+    if (typeof index === 'number') {
+      this.currentIndex = index;
+    }
+
+    return typeof this.currentIndex === 'number' ?  await this.audio.play() : null;
   }
 
   pause() {
-    return this.audio.pause();
+    if (!this.audio) {
+      return null;
+    }
+
+    return typeof this.currentIndex === 'number' ? this.audio.pause() : null;
   }
 
   async toggle() {
+    if (!this.audio) {
+      return null;
+    }
+
     return this.audio.paused ? await this.play() : this.pause();
   }
 
+  async next() {
+    const next = this.currentIndex + 1;
+    next <= this.songs.length - 1 ? this.currentIndex = next : null;
+
+    this.play();
+  }
+
+  async previous() {
+    const previous = this.currentIndex - 1;
+    previous >= 0 ? this.currentIndex = previous : null;
+
+    this.play();
+  }
+
   getDuration() {
+    if (!this.audio) {
+      return null;
+    }
+
     const duration = this.audio.duration;
 
     if (!duration) {
@@ -68,6 +112,10 @@ export class SimpleAudioplayerComponent implements OnInit {
   }
 
   getCurrentTime() {
+    if (!this.audio) {
+      return null;
+    }
+
     const current = this.audio.currentTime;
 
     if (!current) {
@@ -81,6 +129,10 @@ export class SimpleAudioplayerComponent implements OnInit {
   }
 
   setCurrentTime(event: any) {
+    if (!this.audio) {
+      return null;
+    }
+
     this.audio.currentTime = event.value;
     this.currentTime = event.value;
   }
